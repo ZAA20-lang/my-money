@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Money</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf3ee;--fg:#231418;--mut:rgba(35,20,24,.66);--card:rgba(255,255,255,.62);--line:rgba(35,20,24,.14);--btn:#231418;--btnfg:#fff;--g1:rgba(255,120,80,.38);--g2:rgba(150,60,220,.3);--or:#ff9500;--lv:#a855f7;--pk:#ff4d79;--gr:#8d8d8d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--fg:#fff;--mut:rgba(255,255,255,.68);--card:rgba(255,255,255,.09);--line:rgba(255,255,255,.2);--btn:#fff;--btnfg:#000;--g1:rgba(210,50,30,.62);--g2:rgba(140,30,200,.62);--lv:#b873ff;--gr:#d9d9d9}}
+:root[data-theme="dark"]{--bg:#141414;--fg:#fff;--mut:rgba(255,255,255,.68);--card:rgba(255,255,255,.09);--line:rgba(255,255,255,.2);--btn:#fff;--btnfg:#000;--g1:rgba(210,50,30,.62);--g2:rgba(140,30,200,.62);--lv:#b873ff;--gr:#d9d9d9}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--fg);font:14px/1.45 Montserrat,system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(65% 38% at 12% 0,var(--g1),transparent),radial-gradient(55% 45% at 105% 22%,var(--g2),transparent)}
+#app{max-width:440px;margin:0 auto;padding:20px 20px 130px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+h1,h2,h3,.po{font-family:Poppins,system-ui,sans-serif}
+h1{font-weight:800;font-size:26px;line-height:1.2}
+h2{font-weight:600;font-size:15px}
+small,.mut{color:var(--mut);font-size:12px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.col{display:flex;flex-direction:column}.g{gap:14px}.g8{gap:8px}
+.r{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.big{font-family:Poppins,system-ui,sans-serif;font-weight:800;font-size:30px;line-height:1.2}
+.seg{display:flex;gap:4px;padding:4px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.seg button{flex:1;padding:8px 4px;border-radius:12px;font-weight:600;font-size:12px;color:var(--mut)}
+.seg .on{background:var(--btn);color:var(--btnfg)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.plot{display:flex;justify-content:space-between;align-items:flex-end;height:120px;gap:2px}
+.pc{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0}
+.bars{display:flex;align-items:flex-end;gap:2px;height:100px;width:100%;justify-content:center}
+.bars i{display:block;flex:1;max-width:16px;min-height:3px;border-radius:8px 8px 2px 2px;transition:height .4s}
+.pc small{font-size:10px}
+.row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:18px;background:var(--card)}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:600 14px Poppins,sans-serif;color:var(--c);background:color-mix(in srgb,var(--c) 22%,transparent);flex:none}
+.tx{flex:1;min-width:0;display:flex;flex-direction:column}.tx b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.amt{font-size:13px;white-space:nowrap}
+.x{padding:4px;color:var(--mut);border-radius:8px}
+.track{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.track i{display:block;height:100%;border-radius:3px;background:var(--c);transition:width .5s}
+.gc{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%}
+.ig{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 22%,transparent);flex:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(100%,440px);padding:0 16px calc(12px + env(safe-area-inset-bottom,0px))}
+nav div{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-radius:32px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+nav button{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10px;color:var(--mut);padding:4px 6px}
+nav .on{color:var(--fg)}
+nav .fab{width:48px;height:48px;border-radius:50%;background:var(--or);color:#000;justify-content:center}
+.btn{display:block;width:100%;padding:13px;border-radius:18px;background:var(--btn);color:var(--btnfg);font-weight:600;text-align:center}
+.btn.or{background:var(--or);color:#000}.btn.ol{background:transparent;border:1.5px solid var(--or);color:var(--or)}
+.f label{display:block;margin-bottom:6px}
+.in{width:100%;padding:12px 16px;border-radius:20px;border:1px solid var(--line);background:var(--card)}
+.in::placeholder{color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:12px}
+.chip.on{background:var(--or);color:#000;border-color:var(--or)}
+.hero{min-height:calc(100vh - 150px);display:flex;flex-direction:column;justify-content:flex-end;gap:18px;padding-bottom:24px}
+.hero h1{font-weight:800;font-size:clamp(46px,15vw,64px);line-height:1.15}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:5}
+.sheet .c{width:min(100%,440px);border-radius:24px 24px 0 0;background:var(--bg);padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.ic{display:flex;gap:10px}.ic button{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;border:1.5px solid transparent;background:var(--card);color:var(--c)}.ic .on{border-color:var(--c)}
+.amtin{font:800 34px Poppins,sans-serif;background:none;border:0;width:100%;outline-offset:4px}
+.ph{object-fit:cover;border-radius:14px;flex:none;display:block}
+.up{display:grid;place-items:center;min-height:150px;border-radius:24px;border:1.5px dashed var(--line);background:var(--card);overflow:hidden;cursor:pointer;color:var(--mut)}
+.up img{width:100%;max-height:230px;object-fit:cover;display:block}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),K="mymoney.v1",DAY=864e5,MON=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+const fmt=n=>"Rp "+Math.abs(Math.round(n)).toLocaleString("id-ID");
+const ld=d=>{d=new Date(d);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const I={home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',bars:'<path d="M6 20V11M12 20V4M18 20v-6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',plus:'<path d="M12 5v14M5 12h14"/>',back:'<path d="m15 18-6-6 6-6"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/>',laptop:'<rect x="3" y="5" width="18" height="11" rx="2"/><path d="M2 20h20"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',camera:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'};
+const sv=(k,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+const COL=["var(--or)","var(--lv)","var(--pk)","var(--gr)"],CATS={out:["Makanan","Transport","Belanja","Lainnya"],in:["Gaji","Bonus","Lainnya"]};
+function seed(){const t=[],now=Date.now(),n=["Makan siang","Ojek","Belanja bulanan","Kopi","Parkir"];let r=7;const q=()=>(r=(r*9301+49297)%233280)/233280;
+ for(let i=0;i<365;i++){if(q()<.55)t.push({id:"s"+i,type:"out",cat:CATS.out[Math.floor(q()*4)],note:n[Math.floor(q()*5)],amt:Math.max(1,Math.round(q()*18))*5000,date:ld(now-i*DAY)});
+  if(i%30===2)t.push({id:"g"+i,type:"in",cat:"Gaji",note:"Gaji Freelance",amt:3500000+Math.round(q()*6)*100000,date:ld(now-i*DAY)})}return t}
+let S=Object.assign({name:"",tx:seed(),goals:[{id:1,name:"Dana Darurat",ic:"shield",target:10000000,saved:4500000,due:"2027-06",c:0},{id:2,name:"Laptop Baru",ic:"laptop",target:8000000,saved:2800000,due:"2027-03",c:1},{id:3,name:"Liburan Bali",ic:"sun",target:10000000,saved:1950000,due:"2027-12",c:2}]},(()=>{try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return{}}})());
+Object.assign(S,{screen:"welcome",p:"h",flt:"all",f:{type:"out",cat:"Makanan"},gf:{ic:"camera"},sheet:null});
+const save=()=>{try{localStorage.setItem(K,JSON.stringify({name:S.name,tx:S.tx,goals:S.goals}))}catch(e){}};
+const sum=fn=>S.tx.filter(fn).reduce((a,t)=>a+t.amt,0),mk=d=>ld(d).slice(0,7);
+const sorted=()=>[...S.tx].sort((a,b)=>b.date.localeCompare(a.date)||String(b.id).localeCompare(String(a.id)));
+const pct=g=>Math.min(100,Math.round(g.saved/g.target*100)),due=s=>MON[+s.slice(5,7)-1]+" "+s.slice(0,4);
+function series(p){const now=new Date();now.setHours(0,0,0,0);let b=[];
+ if(p==="h"){for(let i=6;i>=0;i--){const d=new Date(now-i*DAY);b.push({l:["Min","Sen","Sel","Rab","Kam","Jum","Sab"][d.getDay()],k:ld(d),in:0,out:0})}S.tx.forEach(t=>{const x=b.find(y=>y.k===t.date);if(x)x[t.type]+=t.amt})}
+ else if(p==="m"){for(let i=1;i<=4;i++)b.push({l:"Mgg "+i,in:0,out:0});S.tx.forEach(t=>{const dd=Math.round((now-new Date(t.date+"T00:00:00"))/DAY),w=Math.floor(dd/7);if(dd>=0&&w<4)b[3-w][t.type]+=t.amt})}
+ else{for(let i=11;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);b.push({l:MON[d.getMonth()],k:mk(d),in:0,out:0})}S.tx.forEach(t=>{const x=b.find(y=>y.k===t.date.slice(0,7));if(x)x[t.type]+=t.amt})}
+ return b}
+const nav=a=>`<nav><div>${[["dashboard","home","Beranda"],["riwayat","clock","Riwayat"],["tambah","plus",""],["laporan","bars","Laporan"],["profil","user","Profil"]].map(([s,i,l])=>s==="tambah"?`<button class="fab" data-a="go" data-v="tambah" aria-label="Tambah transaksi">${sv(i)}</button>`:`<button class="${a===s?"on":""}" data-a="go" data-v="${s}" ${a===s?'aria-current="page"':""}>${sv(i)}<span>${l}</span></button>`).join("")}</div></nav>`;
+const row=(t,del)=>{const c=t.type==="in"?"var(--lv)":"var(--or)";return`<div class="row"><div class="av" style="--c:${c}">${esc(t.note[0]||"?").toUpperCase()}</div><div class="tx"><b>${esc(t.note)}</b><small>${t.cat}</small></div><b class="amt" style="color:${c}">${t.type==="in"?"+":"-"} ${fmt(t.amt)}</b>${del?`<button class="x" data-a="del" data-v="${t.id}" aria-label="Hapus transaksi">${sv("x",16)}</button>`:""}</div>`};
+const gbar=g=>`<div class="track" style="--c:${COL[g.c%3]}"><i style="width:${pct(g)}%"></i></div>`;
+const thumb=(g,s)=>g.img?`<img class="ph" src="${g.img}" alt="" style="width:${s}px;height:${s}px">`:`<span class="ig" style="width:${s}px;height:${s}px">${sv(g.ic,Math.round(s/2))}</span>`;
+const head=(t,s)=>`<div><small>${s}</small><h1>${t}</h1></div>`;
+const back=(to,t)=>`<div class="r" style="justify-content:flex-start;gap:12px"><button class="c" style="padding:9px;border-radius:50%;line-height:0" data-a="go" data-v="${to}" aria-label="Kembali">${sv("back",20)}</button><h1 style="font-size:20px;font-weight:600">${t}</h1></div>`;
+const field=(id,l,v,ph,cls)=>`<div class="f"><label class="mut" for="${id}"><small>${l}</small></label><input class="in ${cls||""}" id="${id}" value="${esc(v||"")}" placeholder="${ph||""}" ${cls==="money"?'inputmode="numeric"':""}></div>`;
+const V={
+welcome:()=>`<div class="hero"><h1>SELAMAT DATANG</h1><p>Atur finansial mu bersama My Money</p><button class="btn" style="width:170px" data-a="go" data-v="login">MASUK</button></div>`,
+login:()=>`<div class="hero"><h1>SELAMAT DATANG</h1><p>Dibuat untuk mengatur keuangan diri anda</p><div class="c col g">${field("name","Masukan Nama",S.name,"Nama kamu")}${field("pw","Masukan Password","","Opsional")}<button class="btn" data-a="login">MASUK</button></div></div>`,
+dashboard:()=>{const m=mk(new Date()),inM=sum(t=>t.type==="in"&&t.date.startsWith(m)),outM=sum(t=>t.type==="out"&&t.date.startsWith(m)),bal=sum(t=>t.type==="in")-sum(t=>t.type==="out"),sr=series(S.p),mx=Math.max(1,...sr.flatMap(b=>[b.in,b.out])),tot=sr.reduce((a,b)=>a+b.out,0),lb={h:"7 hari terakhir",m:"4 minggu terakhir",b:"12 bulan terakhir"}[S.p];
+ return`<div class="col g"><div><small>Selamat datang kembali</small><h1>Halo, ${esc(S.name||"kamu")}</h1></div>
+ <div class="c col g8"><small>Total Saldo</small><div class="big">${bal<0?"- ":""}${fmt(bal)}</div><div class="r"><div><small><i class="dot" style="background:var(--lv)"></i>Pemasukan bulan ini</small><br><b class="po" style="color:var(--lv)">${fmt(inM)}</b></div><div style="text-align:right"><small><i class="dot" style="background:var(--or)"></i>Pengeluaran bulan ini</small><br><b class="po" style="color:var(--or)">${fmt(outM)}</b></div></div></div>
+ <section class="col g8"><div class="r"><h2>Goals</h2><button class="mut" data-a="go" data-v="goals"><small>Lihat semua</small></button></div><div class="two">${S.goals.slice(0,2).map(g=>`<button class="c gc" data-a="go" data-v="goals" style="--c:${COL[g.c%3]};padding:14px;border-radius:20px"><div class="r" style="justify-content:flex-start;gap:8px">${thumb(g,30)}<b style="font-size:12px">${esc(g.name)}</b></div><small>${fmt(g.saved)} / ${fmt(g.target)}</small>${gbar(g)}<div class="r"><b class="po" style="color:var(--c);font-size:12px">${pct(g)}%</b><small style="font-size:10px">${due(g.due)}</small></div></button>`).join("")||'<p class="mut">Belum ada goal.</p>'}</div></section>
+ <div class="c col g8"><div class="seg" role="tablist">${[["h","Harian"],["m","Mingguan"],["b","Bulanan"]].map(([k,l])=>`<button role="tab" aria-selected="${S.p===k}" class="${S.p===k?"on":""}" data-a="p" data-v="${k}">${l}</button>`).join("")}</div><div><small>Pengeluaran ${lb}</small><div class="po" style="font-weight:600;font-size:20px">${fmt(tot)}</div></div>
+ <div class="plot" role="img" aria-label="Grafik pemasukan dan pengeluaran">${sr.map(b=>`<div class="pc"><div class="bars"><i style="height:${b.in/mx*100}%;background:var(--lv)"></i><i style="height:${b.out/mx*100}%;background:var(--or)"></i></div><small>${b.l}</small></div>`).join("")}</div>
+ <div class="r" style="justify-content:flex-start;gap:16px"><small><i class="dot" style="background:var(--lv)"></i>Pemasukan</small><small><i class="dot" style="background:var(--or)"></i>Pengeluaran</small></div></div>
+ <section class="col g8"><div class="r"><h2>Transaksi Terbaru</h2><button class="mut" data-a="go" data-v="riwayat"><small>Lihat semua</small></button></div>${sorted().slice(0,3).map(t=>row(t)).join("")||'<p class="mut">Belum ada transaksi. Tekan + untuk menambah.</p>'}</section></div>${nav("dashboard")}`},
+riwayat:()=>{const l=sorted().filter(t=>S.flt==="all"||t.type===S.flt).slice(0,60),g={},td=ld(Date.now()),yd=ld(Date.now()-DAY);l.forEach(t=>(g[t.date]=g[t.date]||[]).push(t));
+ return`<div class="col g">${head("Riwayat","Semua transaksimu")}<div class="seg">${[["all","Semua"],["in","Pemasukan"],["out","Pengeluaran"]].map(([k,n])=>`<button class="${S.flt===k?"on":""}" data-a="flt" data-v="${k}">${n}</button>`).join("")}</div>${Object.keys(g).map(d=>`<div class="col g8"><small><b>${d===td?"Hari ini":d===yd?"Kemarin":+d.slice(8)+" "+MON[+d.slice(5,7)-1]+" "+d.slice(0,4)}</b></small>${g[d].map(t=>row(t,1)).join("")}</div>`).join("")||'<p class="mut">Belum ada transaksi untuk filter ini.</p>'}</div>${nav("riwayat")}`},
+laporan:()=>{const d=new Date(),m=mk(d),o=S.tx.filter(t=>t.type==="out"&&t.date.startsWith(m)),tot=o.reduce((a,t)=>a+t.amt,0),inM=sum(t=>t.type==="in"&&t.date.startsWith(m)),by=CATS.out.map((c,i)=>({c,v:o.filter(t=>t.cat===c).reduce((a,t)=>a+t.amt,0),col:COL[i]})),C=2*Math.PI*70;let off=0,rt=inM?Math.max(0,Math.min(100,Math.round((inM-tot)/inM*100))):0;
+ const arcs=tot?by.map(b=>{const L=b.v/tot*C,s=`<circle cx="90" cy="90" r="70" fill="none" stroke="${b.col}" stroke-width="22" stroke-dasharray="${Math.max(0,L-2)} ${C-Math.max(0,L-2)}" stroke-dashoffset="${-off}" transform="rotate(-90 90 90)"/>`;off+=L;return s}).join(""):"";
+ return`<div class="col g">${head("Laporan",MON[d.getMonth()]+" "+d.getFullYear())}<div class="c col g" style="align-items:center"><h2>Pengeluaran per Kategori</h2><svg viewBox="0 0 180 180" width="170" height="170" role="img" aria-label="Diagram donat pengeluaran per kategori"><circle cx="90" cy="90" r="70" fill="none" stroke="var(--line)" stroke-width="22"/>${arcs}<text x="90" y="86" text-anchor="middle" fill="var(--mut)" font-size="11">Total</text><text x="90" y="104" text-anchor="middle" fill="var(--fg)" font-size="15" font-weight="600" font-family="Poppins,sans-serif">${fmt(tot)}</text></svg><div class="col g8" style="width:100%">${by.map(b=>`<div class="r"><span><i class="dot" style="background:${b.col}"></i>${b.c} <small>${tot?Math.round(b.v/tot*100):0}%</small></span><b style="font-size:12px">${fmt(b.v)}</b></div>`).join("")}</div></div>
+ <div class="c col g8"><div class="r"><h2>Rasio Tabungan</h2><b class="po" style="color:var(--or)">${rt}%</b></div><div class="track" style="--c:var(--or)"><i style="width:${rt}%"></i></div><small>Sisa ${fmt(Math.max(0,inM-tot))} dari pemasukan ${fmt(inM)}</small></div></div>${nav("laporan")}`},
+profil:()=>`<div class="col g">${head("Profil","Akun kamu")}<div class="c col g8" style="align-items:center"><div class="av" style="--c:var(--or);width:64px;height:64px;font-size:28px">${esc((S.name||"?")[0]).toUpperCase()}</div><h2 style="font-size:20px">${esc(S.name||"Tamu")}</h2><small>Pengguna My Money</small></div><div class="c col g8"><div class="r"><span>Transaksi tersimpan</span><b>${S.tx.length}</b></div><div class="r"><span>Goals aktif</span><b>${S.goals.length}</b></div><small>Data tersimpan di browser ini saja.</small></div><button class="btn ol" data-a="clear">Hapus data contoh</button><button class="btn or" data-a="logout">Keluar</button></div>${nav("profil")}`,
+tambah:()=>{const f=S.f;return`<div class="col g">${back("dashboard","Tambah Transaksi")}<div class="seg">${[["out","Pengeluaran"],["in","Pemasukan"]].map(([k,l])=>`<button class="${f.type===k?"on":""}" data-a="type" data-v="${k}">${l}</button>`).join("")}</div><div class="c"><small>Jumlah</small><div class="r"><span class="big">Rp</span><input class="amtin money" id="amt" inputmode="numeric" placeholder="0" value="${esc(f.amt||"")}" aria-label="Jumlah"></div></div><div class="col g8"><small>Kategori</small><div class="chips">${CATS[f.type].map(c=>`<button class="chip ${f.cat===c?"on":""}" data-a="cat" data-v="${c}">${c}</button>`).join("")}</div></div>${field("note","Catatan",f.note,"Contoh: Makan siang")}<div class="f"><label class="mut" for="date"><small>Tanggal</small></label><input class="in" type="date" id="date" value="${f.date||ld(Date.now())}"></div><button class="btn" data-a="savetx">SIMPAN</button></div>`},
+goals:()=>{const T=S.goals.reduce((a,g)=>a+g.target,0),Sv=S.goals.reduce((a,g)=>a+g.saved,0),p=T?Math.round(Sv/T*100):0;
+ return`<div class="col g">${head("Goals","Target tabunganmu")}<div class="c col g8"><small>Total Terkumpul</small><div class="big">${fmt(Sv)}</div><div class="track" style="--c:var(--or)"><i style="width:${p}%"></i></div><small>${p}% dari total target ${fmt(T)}</small></div>${S.goals.map(g=>`<div class="c gc" style="--c:${COL[g.c%3]}"><div class="r"><div class="r" style="gap:10px">${thumb(g,52)}<div class="col"><b class="po" style="font-size:14px">${esc(g.name)}</b><small>Target ${due(g.due)}</small></div></div><b class="po" style="color:var(--c)">${pct(g)}%</b></div>${gbar(g)}<div class="r"><small>${fmt(g.saved)} / ${fmt(g.target)}</small><span><button class="chip" data-a="setor" data-v="${g.id}">Setor</button> <button class="x" data-a="delgoal" data-v="${g.id}" aria-label="Hapus goal">${sv("x",16)}</button></span></div></div>`).join("")||'<p class="mut">Belum ada goal. Mulai dengan satu target kecil.</p>'}<button class="btn or" data-a="go" data-v="tgoal">+ Buat Goal</button></div>${nav("goals")}${S.sheet?`<div class="sheet" data-a="closesheet"><div class="c col g" role="dialog" aria-label="Setor tabungan"><h2>Setor ke ${esc(S.goals.find(g=>g.id==S.sheet).name)}</h2>${field("dep","Jumlah setoran","","Rp 0","money")}<button class="btn or" data-a="dep">Simpan setoran</button></div></div>`:""}`},
+tgoal:()=>{const f=S.gf;return`<div class="col g">${back("goals","Buat Goal")}<div class="col g8"><small>Foto</small><label class="up" for="gphoto">${f.img?`<img src="${f.img}" alt="Foto goal">`:`<span class="col" style="align-items:center;gap:6px">${sv("camera",28)}<small>Ketuk untuk menambah foto</small></span>`}</label><input type="file" id="gphoto" accept="image/*" hidden></div>${field("gname","Nama Goal",f.name,"Contoh: Kamera Baru")}<div class="c"><small>Harga</small><div class="r"><span class="big">Rp</span><input class="amtin money" id="gtarget" inputmode="numeric" placeholder="0" value="${esc(f.target||"")}" aria-label="Harga"></div></div><div class="f"><label class="mut" for="gdue"><small>Tenggat</small></label><input class="in" type="month" id="gdue" value="${f.due||""}"></div><button class="btn or" data-a="savegoal">BUAT GOAL</button></div>`}};
+function keep(){const g=i=>document.getElementById(i);if(S.screen==="tambah"&&g("amt")){S.f.amt=g("amt").value;S.f.note=g("note").value;S.f.date=g("date").value}if(S.screen==="tgoal"&&g("gname")){S.gf.target=g("gtarget").value;S.gf.name=g("gname").value;S.gf.due=g("gdue").value}if(S.screen==="login"&&g("name"))S.name=g("name").value.trim()}
+function render(){document.getElementById("app").innerHTML=V[S.screen]()}
+function go(v){S.screen=v;S.sheet=null;if(v==="tambah")S.f={type:"out",cat:"Makanan"};if(v==="tgoal")S.gf={ic:"camera"};try{location.hash=v}catch(e){}window.scrollTo(0,0)}
+const num=id=>+(document.getElementById(id).value.replace(/\D/g,"")||0);
+document.addEventListener("input",e=>{if(e.target.classList.contains("money")){const d=e.target.value.replace(/\D/g,"");e.target.value=d?(+d).toLocaleString("id-ID"):""}});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b)return;if(b.classList.contains("sheet")&&e.target!==b)return;const a=b.dataset.a,v=b.dataset.v;keep();
+ if(a==="go")go(v);else if(a==="p")S.p=v;else if(a==="flt")S.flt=v;else if(a==="type"){S.f.type=v;S.f.cat=CATS[v][0]}else if(a==="cat")S.f.cat=v;else if(a==="gic")S.gf.ic=v;
+ else if(a==="login"){if(!S.name){document.getElementById("name").focus();return}save();go("dashboard")}
+ else if(a==="logout"){S.name="";save();go("welcome")}
+ else if(a==="clear"){S.tx=[];save()}
+ else if(a==="del"){S.tx=S.tx.filter(t=>String(t.id)!==v);save()}
+ else if(a==="savetx"){const n=num("amt");if(!n){document.getElementById("amt").focus();return}S.tx.push({id:"n"+Date.now(),type:S.f.type,cat:S.f.cat,note:(S.f.note||"").trim()||S.f.cat,amt:n,date:S.f.date||ld(Date.now())});save();go("dashboard")}
+ else if(a==="setor")S.sheet=v;else if(a==="closesheet")S.sheet=null;
+ else if(a==="dep"){const n=num("dep");if(!n)return;const g=S.goals.find(x=>x.id==S.sheet);g.saved+=n;S.sheet=null;save()}
+ else if(a==="delgoal"){S.goals=S.goals.filter(g=>g.id!=v);save()}
+ else if(a==="savegoal"){const t=num("gtarget"),n=S.gf.name.trim();if(!t||!n){document.getElementById(t?"gname":"gtarget").focus();return}S.goals.push({id:Date.now(),name:n,ic:S.gf.ic,img:S.gf.img||"",target:t,saved:0,due:S.gf.due||ld(Date.now()+180*DAY).slice(0,7),c:S.goals.length%3});save();go("goals")}
+ render()});
+document.addEventListener("change",e=>{if(e.target.id!=="gphoto"||!e.target.files[0])return;keep();const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);S.gf.img=c.toDataURL("image/jpeg",.78);render()};im.src=r.result};r.readAsDataURL(e.target.files[0])});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(V[h]&&h!==S.screen){S.screen=S.name||h==="welcome"||h==="login"?h:"welcome";render()}});
+S.screen=S.name?(V[location.hash.slice(1)]?location.hash.slice(1):"dashboard"):"welcome";render();
+</script>
+</body>
+</html>
